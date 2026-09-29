@@ -306,7 +306,7 @@ h3.display { font-size: 19px; }
   color: var(--muted);
 }
 
-.project-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.project-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
 .project-link {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
