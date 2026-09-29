@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV — Santiago Andrés Passerini</title>
+<meta name="description" content="Curriculum vitae de Santiago Andrés Passerini, Analista de Sistemas Informáticos.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<!-- Fuente del CV en PDF: se genera imprimiendo esta página (ver README) -->
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --text: #2a2a2a;
+    --muted: #555;
+    --dim: #6b6b6b;
+    --line: #e3e3e3;
+    --cell: #e8e8e8;
+    --green: #15803d;
+    --violet: #7c3aed;
+    --sans: "Geist", system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, monospace;
+    --dot: "Doto", "Geist Mono", monospace;
+  }
+
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; background: #d9d9d9; color: var(--text); font: 400 8.3pt/1.48 var(--sans); }
+  a { color: inherit; text-decoration: none; }
+  p { margin: 0; }
+
+  /* Hoja A4: centrada en pantalla, a sangre al imprimir */
+  .sheet {
+    position: relative; overflow: hidden;
+    width: 210mm; min-height: 297mm; margin: 24px auto;
+    padding: 0 14mm 12mm;
+    background: #fff;
+    box-shadow: 0 6px 30px rgb(0 0 0 / 0.18);
+  }
+  @media print {
+    body { background: #fff; }
+    .sheet { margin: 0; box-shadow: none; height: 297mm; }
+  }
+
+  /* Banda dither: el mismo fondo del portfolio (modo claro). Al cargar se congela en una
+     imagen con el toque violeta y el fundido a blanco, para que el PDF salga igual que la pantalla. */
+  .band { position: absolute; left: 0; right: 0; top: 0; height: 26mm; }
+  .band canvas, .band img { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+  .band.no-webgl { background: linear-gradient(to bottom, transparent, #fff), linear-gradient(100deg, rgb(21 128 61 / 0.15), rgb(124 58 237 / 0.15)); }
+
+  /* Encabezado */
+  .head { position: relative; padding-top: 15mm; }
+  .meta {
+    display: flex; align-items: center; gap: 6px;
+    font: 500 6.6pt/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+  h1 {
+    margin: 4mm 0 0;
+    font: 900 25pt/1 var(--dot); letter-spacing: 0.03em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  .role { margin-top: 2.2mm; font-size: 9.4pt; color: var(--ink); }
+  .contact {
+    display: flex; flex-wrap: wrap; gap: 1.6mm 6mm;
+    margin: 4mm 0 0; padding: 3mm 0 0; list-style: none;
+    border-top: 0.6pt solid var(--line);
+    font: 400 7.6pt/1.4 var(--mono); color: var(--ink);
+  }
+  .contact span { margin-right: 1.6mm; font-size: 6.4pt; letter-spacing: 0.14em; color: var(--dim); }
+  .rule { height: 1pt; margin-top: 3mm; background: linear-gradient(90deg, var(--green), var(--violet)); }
+
+  /* Columnas */
+  .cols { display: grid; grid-template-columns: 1fr 60mm; gap: 8mm; margin-top: 5mm; }
+  section + section { margin-top: 4.6mm; }
+  h2 {
+    display: flex; align-items: center; gap: 5px;
+    margin: 0 0 2.6mm; padding-bottom: 1.6mm;
+    border-bottom: 0.6pt solid var(--line);
+    font: 500 6.8pt/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  h2::before { content: ""; width: 9pt; height: 1pt; background: var(--green); }
+  h2 i { font-style: normal; color: var(--violet); }
+
+  .lead { color: var(--text); }
+  .lead b { color: var(--ink); font-weight: 600; }
+
+  /* Proyectos */
+  .prj + .prj { margin-top: 2.8mm; padding-top: 2.8mm; border-top: 0.6pt dashed var(--line); }
+  .prj-top {
+    display: flex; justify-content: space-between; gap: 8px;
+    font: 500 6.4pt/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .prj-top .tag { color: var(--green); text-align: right; }
+  h3 { margin: 1.2mm 0 0.8mm; font: 600 9.4pt/1.3 var(--sans); color: var(--ink); }
+  .tech { margin-top: 1.2mm; font: 400 6.9pt/1.45 var(--mono); color: var(--muted); }
+  .link { display: inline-block; margin-top: 0.8mm; font: 500 6.9pt/1.4 var(--mono); color: var(--violet); }
+
+  .xp-when { font: 500 6.4pt/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+
+  /* Formación */
+  .edu + .edu { margin-top: 3mm; }
+  .edu h3 { margin-top: 0; }
+  .edu p { color: var(--muted); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 2.4mm; border: 0.6pt solid var(--line); }
+  .stat { padding: 1.8mm 2mm; }
+  .stat + .stat { border-left: 0.6pt solid var(--line); }
+  .stat b { display: block; font: 900 13pt/1 var(--dot); color: var(--ink); }
+  .stat b small { font-size: 8pt; color: var(--dim); }
+  .stat span { display: block; margin-top: 1mm; font: 500 5.6pt/1.2 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+  .grid { display: grid; grid-template-columns: repeat(17, 1fr); gap: 0.7mm; margin-top: 2mm; }
+  .grid i { aspect-ratio: 1; background: var(--cell); }
+  .grid i.on { background: var(--green); }
+
+  /* Stack */
+  .stack { margin: 0; }
+  .stack div + div { margin-top: 1.9mm; }
+  .stack dt { font: 500 6.4pt/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .stack dt i { font-style: normal; color: var(--violet); margin-right: 3px; }
+  .stack dd { margin: 0.5mm 0 0; font-size: 7.8pt; color: var(--text); }
+  .stack em { font-style: normal; color: var(--dim); }
+
+  .list { margin: 0; padding: 0; list-style: none; }
+  .list li + li { margin-top: 1.6mm; }
+  .list b { display: block; color: var(--ink); font-weight: 600; }
+  .list span { color: var(--muted); }
+
+  .meter { display: flex; gap: 2px; margin: 1mm 0; }
+  .meter i { width: 5mm; height: 1.4mm; background: var(--cell); }
+  .meter i.on { background: var(--green); }
+
+  .foot {
+    position: absolute; left: 14mm; right: 14mm; bottom: 7mm;
+    display: flex; justify-content: space-between;
+    font: 500 6pt/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dim);
+  }
+</style>
+<script src="../dither.js" defer></script>
+</head>
+<body>
+<article class="sheet">
+  <div class="band" aria-hidden="true"><canvas id="dither"></canvas></div>
+
+  <header class="head">
+    <p class="meta"><span class="dot"></span>Curriculum vitae // Rosario, AR // 2026</p>
+    <h1>Santiago Andrés Passerini</h1>
+    <p class="role">Analista de Sistemas Informáticos · Estudiante de 4.º año de Ingeniería en Sistemas Informáticos</p>
+    <ul class="contact">
+      <li><span>EMAIL</span><a href="mailto:santiago.passerini@gmail.com">santiago.passerini@gmail.com</a></li>
+      <li><span>LINKEDIN</span><a href="https://www.linkedin.com/in/santiago-passerini">in/santiago-passerini</a></li>
+      <li><span>GITHUB</span><a href="https://github.com/Sap3252">github.com/Sap3252</a></li>
+      <li><span>UBICACIÓN</span>Rosario, Santa Fe, Argentina</li>
+    </ul>
+    <div class="rule"></div>
+  </header>
+
+  <div class="cols">
+    <main>
+      <section>
+        <h2><i>01</i>Perfil</h2>
+        <p class="lead">
+          Analista de Sistemas Informáticos (título intermedio, UAI) y estudiante de 4.º año de Ingeniería en Sistemas Informáticos,
+          con base sólida en <b>análisis y validación de datos con SQL</b>, desarrollo de sistemas de gestión y aplicaciones web, y <b>testing funcional</b>.
+          Perfil analítico y comunicativo, con experiencia presentando proyectos ante público técnico y no técnico.
+          Busco iniciarme como <b>Analista Funcional Junior</b>, actuando de nexo entre usuarios, negocio y equipo técnico.
+        </p>
+      </section>
+
+      <section>
+        <h2><i>02</i>Proyectos</h2>
+
+        <div class="prj">
+          <div class="prj-top"><span>PRJ_01</span><span class="tag">Proyecto integrador · Título de Analista</span></div>
+          <h3>Sistema de Gestión - Electrotech</h3>
+          <p>Relevamiento de requerimientos, análisis funcional y diseño del modelo de datos. Implementación con MySQL: consultas, validación y control de consistencia de datos con SQL, y pruebas funcionales sobre los módulos del sistema.</p>
+          <p class="tech">MySQL · SQL · Análisis funcional · Modelo de datos · Testing</p>
+          <a class="link" href="https://github.com/Sap3252/electrotech-v2">github.com/Sap3252/electrotech-v2 ↗</a>
+        </div>
+
+        <div class="prj">
+          <div class="prj-top"><span>PRJ_02</span><span class="tag">XXVIII WICC 2026 · Paper y póster #16335</span></div>
+          <h3>Prótesis robótica basada en visión computacional y arquitectura distribuida</h3>
+          <p>Prótesis de mano impresa en 3D que replica gestos en tiempo real. Una red neuronal detecta 21 puntos clave de la mano y un ESP32 NodeMCU controla los servos: 90% de detección y 4,2 ms de latencia de punta a punta. Trabajo en equipo presentado en congreso.</p>
+          <p class="tech">ESP32 NodeMCU · Visión computacional&nbsp;(CNN) · UART · PWM · Impresión&nbsp;3D · UAI&nbsp;Case</p>
+          <a class="link" href="https://wicc2026.uai.edu.ar/posters-procesamiento_se%C3%B1ales.html">wicc2026.uai.edu.ar · Galería de pósters ↗</a>
+        </div>
+
+        <div class="prj">
+          <div class="prj-top"><span>PRJ_03</span><span class="tag">Proyecto final · Desarrollo y Arquitecturas Web</span></div>
+          <h3>Futboller</h3>
+          <p>Juego web al estilo Wordle para adivinar un jugador de fútbol consumiendo la API de la cátedra: autocompletado, tres dificultades, puntaje por tiempo e historial de partidas.</p>
+          <p class="tech">HTML5 · CSS3 · JavaScript · Fetch API · LocalStorage</p>
+          <a class="link" href="https://sap3252.github.io/Futboller-Passerini/">sap3252.github.io/Futboller-Passerini ↗</a>
+        </div>
+
+        <div class="prj">
+          <div class="prj-top"><span>PRJ_04</span><span class="tag">Proyecto personal · En desarrollo</span></div>
+          <h3>WebLink</h3>
+          <p>Red social full stack: API REST con autenticación JWT, publicaciones, perfiles, seguidores y feed paginado, con cliente en React.</p>
+          <p class="tech">MongoDB · Mongoose · Node.js · Express · TypeScript · React · JWT</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><i>03</i>Experiencia</h2>
+        <p class="xp-when">Durante estudios secundarios</p>
+        <h3>Pasantía administrativa — Top Colors SRL</h3>
+        <p>Tareas administrativas: carga, facturación, organización y control de información en planillas de cálculo.</p>
+      </section>
+    </main>
+
+    <aside>
+      <section>
+        <h2><i>04</i>Formación</h2>
+        <div class="edu">
+          <h3>Ingeniería en Sistemas Informáticos</h3>
+          <p>UAI · Sede Rosario · 2023 – actualidad</p>
+          <div class="stats">
+            <div class="stat"><b>4.º</b><span>Año</span></div>
+            <div class="stat"><b>32<small>/51</small></b><span>Materias</span></div>
+            <div class="stat"><b>8,37</b><span>Promedio</span></div>
+          </div>
+          <div class="grid" data-total="51" data-done="32" role="img" aria-label="32 de 51 materias aprobadas"></div>
+        </div>
+        <div class="edu">
+          <h3>Analista de Sistemas Informáticos</h3>
+          <p>Título intermedio · UAI Rosario. Obtenido con el proyecto integrador Electrotech.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><i>05</i>Stack técnico</h2>
+        <dl class="stack">
+          <div><dt><i>01</i>Lenguajes</dt><dd>C · C++ · C# · JavaScript · TypeScript <em>(intermedio)</em> · Python <em>(básico)</em></dd></div>
+          <div><dt><i>02</i>Bases de datos</dt><dd>SQL <em>(intermedio)</em> · MySQL · MongoDB · DBeaver</dd></div>
+          <div><dt><i>03</i>APIs &amp; Testing</dt><dd>APIs REST · JSON · Postman · Testing funcional</dd></div>
+          <div><dt><i>04</i>Herramientas</dt><dd>Excel · Word · Google Workspace · UAI&nbsp;Case</dd></div>
+          <div><dt><i>05</i>IA &amp; Workflow</dt><dd>Claude · Gemini · ChatGPT · NotebookLM · Git · GitHub</dd></div>
+          <div><dt><i>06</i>Robótica &amp; IoT</dt><dd>ESP32 NodeMCU · Visión computacional · UART&nbsp;/&nbsp;PWM · Impresión&nbsp;3D</dd></div>
+        </dl>
+      </section>
+
+      <section>
+        <h2><i>06</i>Competencias</h2>
+        <ul class="list">
+          <li><b>Comunicación</b><span>Exposición de proyectos ante público técnico y general.</span></li>
+          <li><b>Pensamiento analítico</b><span>Análisis de causa raíz y resolución de problemas.</span></li>
+          <li><b>Trabajo en equipo</b><span>Proyectos grupales y presentación en congreso.</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><i>07</i>Idiomas</h2>
+        <ul class="list">
+          <li><b>Inglés · Intermedio</b>
+            <div class="meter" role="img" aria-label="Nivel 3 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+            <span>Lectura fluida de documentación técnica.</span>
+          </li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="foot">
+    <span>Santiago Andrés Passerini</span>
+    <span>CV · 2026</span>
+  </footer>
+</article>
+
+<script>
+  // Grilla de materias: una celda por materia, en verde las aprobadas
+  const grid = document.querySelector('.grid');
+  const done = Number(grid.dataset.done);
+  for (let i = 0; i < Number(grid.dataset.total); i++) {
+    const cell = document.createElement('i');
+    if (i < done) cell.className = 'on';
+    grid.append(cell);
+  }
+
+  // Congela la banda dither en una imagen: toque violeta a la derecha, más suave y con fundido a blanco
+  window.addEventListener('load', () => setTimeout(() => {
+    const src = document.getElementById('dither');
+    if (!src || !src.width || src.parentElement.classList.contains('no-webgl')) return;
+    const out = document.createElement('canvas');
+    out.width = src.width;
+    out.height = src.height;
+    const ctx = out.getContext('2d');
+    ctx.drawImage(src, 0, 0);
+
+    let g = ctx.createLinearGradient(0, 0, out.width, 0);
+    g.addColorStop(0.3, 'rgb(124 58 237 / 0)');
+    g.addColorStop(1, 'rgb(124 58 237 / 1)');
+    ctx.globalCompositeOperation = 'color';
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, out.width, out.height);
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgb(255 255 255 / 0.3)';
+    ctx.fillRect(0, 0, out.width, out.height);
+    g = ctx.createLinearGradient(0, 0, 0, out.height);
+    g.addColorStop(0.3, 'rgb(255 255 255 / 0)');
+    g.addColorStop(1, 'rgb(255 255 255 / 1)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, out.width, out.height);
+
+    const img = new Image();
+    img.alt = '';
+    img.src = out.toDataURL('image/png');
+    src.replaceWith(img);
+  }, 600));
+</script>
+</body>
+</html>
