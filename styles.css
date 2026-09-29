@@ -317,6 +317,12 @@ h3.display { font-size: 19px; }
 .project-link i:last-child { font-size: 13px; color: var(--muted); transition: transform 0.2s, color 0.2s; }
 .project-link:hover, .project-link:hover i:last-child { color: var(--accent); }
 .project-link:hover i:last-child { transform: translate(2px, -2px); }
+.project-note {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dim);
+}
+.project-note i { font-size: 15px; }
 
 /* ── Stack ─────────────────────────────────────────── */
 .marquee {
