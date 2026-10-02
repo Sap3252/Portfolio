@@ -130,6 +130,7 @@
   .list li + li { margin-top: 1.6mm; }
   .list b { display: block; color: var(--ink); font-weight: 600; }
   .list span { color: var(--muted); }
+  .list.inline b { display: inline; }
 
   .meter { display: flex; gap: 2px; margin: 1mm 0; }
   .meter i { width: 5mm; height: 1.4mm; background: var(--cell); }
@@ -244,15 +245,16 @@
           <div><dt><i>04</i>Herramientas</dt><dd>Excel · Word · Google Workspace · UAI&nbsp;Case</dd></div>
           <div><dt><i>05</i>IA &amp; Workflow</dt><dd>Claude · Gemini · ChatGPT · NotebookLM · Git · GitHub</dd></div>
           <div><dt><i>06</i>Robótica &amp; IoT</dt><dd>ESP32 NodeMCU · Visión computacional · UART&nbsp;/&nbsp;PWM · Impresión&nbsp;3D</dd></div>
+          <div><dt><i>07</i>UI &amp; Diseño</dt><dd>Tailwind CSS · shadcn/ui</dd></div>
         </dl>
       </section>
 
       <section>
         <h2><i>06</i>Competencias</h2>
-        <ul class="list">
-          <li><b>Comunicación</b><span>Exposición de proyectos ante público técnico y general.</span></li>
-          <li><b>Pensamiento analítico</b><span>Análisis de causa raíz y resolución de problemas.</span></li>
-          <li><b>Trabajo en equipo</b><span>Proyectos grupales y presentación en congreso.</span></li>
+        <ul class="list inline">
+          <li><b>Comunicación.</b> <span>Exposición de proyectos ante público técnico y general.</span></li>
+          <li><b>Pensamiento analítico.</b> <span>Análisis de causa raíz y resolución de problemas.</span></li>
+          <li><b>Trabajo en equipo.</b> <span>Proyectos grupales y presentación en congreso.</span></li>
         </ul>
       </section>
 
@@ -284,10 +286,24 @@
     grid.append(cell);
   }
 
-  // Congela la banda dither en una imagen: toque violeta a la derecha, más suave y con fundido a blanco
-  window.addEventListener('load', () => setTimeout(() => {
+  // Congela la banda dither en una imagen: toque violeta a la derecha, más suave y con fundido a blanco.
+  // Espera a que el dither haya dibujado; si WebGL no responde, queda el degradado de respaldo.
+  const band = document.querySelector('.band');
+  const isDrawn = canvas => {
+    const probe = document.createElement('canvas');
+    probe.width = probe.height = 8;
+    const p = probe.getContext('2d');
+    p.drawImage(canvas, 0, 0, 8, 8);
+    return p.getImageData(0, 0, 8, 8).data.some((v, i) => i % 4 === 3 && v > 0);
+  };
+  const freeze = (tries = 0) => {
     const src = document.getElementById('dither');
-    if (!src || !src.width || src.parentElement.classList.contains('no-webgl')) return;
+    if (!src || band.classList.contains('no-webgl')) return;
+    if (!src.width || !isDrawn(src)) {
+      if (tries < 40) setTimeout(() => freeze(tries + 1), 150);
+      else { band.classList.add('no-webgl'); src.remove(); }
+      return;
+    }
     const out = document.createElement('canvas');
     out.width = src.width;
     out.height = src.height;
@@ -314,7 +330,8 @@
     img.alt = '';
     img.src = out.toDataURL('image/png');
     src.replaceWith(img);
-  }, 600));
+  };
+  window.addEventListener('load', () => setTimeout(freeze, 300));
 </script>
 </body>
 </html>
