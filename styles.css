@@ -148,14 +148,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--muted);
 }
-.topbar-left { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
-.topbar time { color: var(--fg); font-variant-numeric: tabular-nums; }
-.dim { color: var(--dim); }
-.rec {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent);
-  animation: blink 1.6s steps(2, jump-none) infinite;
-}
+.brand { display: flex; align-items: center; gap: 10px; white-space: nowrap; color: var(--fg); }
+.rec { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
 .nav { display: flex; gap: 22px; margin-left: auto; }
 .nav a { position: relative; color: var(--dim); transition: color 0.2s; }
@@ -491,13 +485,12 @@ h3.display { font-size: 19px; }
 .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .js .reveal.in { opacity: 1; transform: none; }
 
-@keyframes blink { 50% { opacity: 0.15; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
-  .rec, .marquee.is-ready .marquee-track { animation: none; }
+  .marquee.is-ready .marquee-track { animation: none; }
   .subjects span.on { transition: none; }
 }
 
@@ -539,7 +532,6 @@ h3.display { font-size: 19px; }
 
 /* Pantallas muy angostas */
 @media (max-width: 400px) {
-  .topbar .dim { display: none; }
   .stats { grid-template-columns: 1fr; }
   .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
   .stat + .stat { border-left: 0; border-top: 1px solid var(--line); }

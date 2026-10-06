@@ -20,16 +20,6 @@ themeToggle.addEventListener('click', () => {
 });
 syncThemeUI();
 
-// Reloj en hora de Argentina
-const clock = document.getElementById('clock');
-const fmt = new Intl.DateTimeFormat('es-AR', {
-  timeZone: 'America/Argentina/Buenos_Aires',
-  hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'
-});
-const tick = () => { clock.textContent = fmt.format(new Date()); };
-tick();
-setInterval(tick, 1000);
-
 // Barra de progreso de scroll
 const progress = document.querySelector('.progress');
 const onScroll = () => {
