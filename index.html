@@ -167,19 +167,22 @@
         <article class="project">
           <div class="project-meta">
             <span>PRJ_04</span>
-            <span class="badge">Proyecto personal · En desarrollo</span>
+            <span class="badge">Proyecto personal · Full stack</span>
           </div>
           <h3 class="display">WebLink</h3>
-          <p>Red social experimental para practicar un stack completo con MongoDB: usuarios, publicaciones y seguidores.</p>
+          <p>Red social para publicar posts cortos con foto, seguir usuarios, dar "links" (el me gusta de WebLink) y comentar. Publicada en Render.</p>
           <ul class="bullets">
-            <li>API REST con Node.js, Express y TypeScript; modelos de usuarios, posts y seguimientos en MongoDB con Mongoose.</li>
-            <li>Registro e inicio de sesión con contraseñas hasheadas (bcrypt) y autenticación con JWT.</li>
-            <li>Publicaciones de hasta 250 caracteres, perfiles, seguir/dejar de seguir y feed paginado.</li>
-            <li>Cliente en React con Vite y React Router.</li>
+            <li>API REST con Node.js, Express y TypeScript sobre MongoDB (Mongoose), con paginación por cursor y manejo centralizado de errores.</li>
+            <li>Registro e inicio de sesión con JWT y contraseñas hasheadas con bcrypt.</li>
+            <li>Fotos en los posts subidas directo a Cloudinary con firma, sin metadatos de ubicación y con texto alternativo.</li>
+            <li>Links, comentarios, seguidores, buscador de perfiles y borrado lógico de posts.</li>
+            <li>Cliente en React con Vite: español e inglés, modo claro/oscuro y diseño de vidrio sobre un fondo aurora animado.</li>
           </ul>
-          <div class="tags"><span>MongoDB</span><span>Mongoose</span><span>Node.js</span><span>Express</span><span>TypeScript</span><span>React</span><span>JWT</span></div>
+          <div class="tags"><span>MongoDB</span><span>Mongoose</span><span>Node.js</span><span>Express</span><span>TypeScript</span><span>React</span><span>Vite</span><span>JWT</span><span>Cloudinary</span></div>
           <div class="project-links">
-            <span class="project-note"><i class="ri-git-branch-line" aria-hidden="true"></i>Repositorio próximamente</span>
+            <a class="project-link" href="https://weblink-45tw.onrender.com" target="_blank" rel="noopener"><i class="ri-play-circle-line" aria-hidden="true"></i>Ver demo<i class="ri-arrow-right-up-line" aria-hidden="true"></i></a>
+            <a class="project-link" href="https://github.com/Sap3252/WebLink" target="_blank" rel="noopener"><i class="ri-github-line" aria-hidden="true"></i>Repositorio<i class="ri-arrow-right-up-line" aria-hidden="true"></i></a>
+            <p class="project-hint">La demo usa el plan gratuito de Render: la primera carga puede tardar un minuto.</p>
           </div>
         </article>
       </div>
